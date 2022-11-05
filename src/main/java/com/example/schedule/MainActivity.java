@@ -19,18 +19,20 @@ public class MainActivity extends AppCompatActivity {
     public class LogInListener implements View.OnClickListener{
         @Override
         public void onClick(View view){
-            if(editUserName.getText().toString().contains("admin") && editPassword.getText().toString().contains("admin")){
+            //Hämta användare från databasen
+            //Kolla om användare finns
+           // if(editUserName.getText().toString().contains("") && editPassword.getText().toString().contains("")){
                 txtErrorLogIn.setVisibility(View.INVISIBLE);
                 editUserName.setBackgroundResource(R.drawable.ednormal);
                 editPassword.setBackgroundResource(R.drawable.ednormal);
                 Intent homeAct = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(homeAct);
                 finish();
-            }else{
-                txtErrorLogIn.setVisibility(View.VISIBLE);
-                editUserName.setBackgroundResource(R.drawable.edterr);
-                editPassword.setBackgroundResource(R.drawable.edterr);
-            }
+            //}else{
+            //    txtErrorLogIn.setVisibility(View.VISIBLE);
+            //    editUserName.setBackgroundResource(R.drawable.edterr);
+            //    editPassword.setBackgroundResource(R.drawable.edterr);
+            //}
         }
     }
 
