@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class Shift {
     private int uid;
     private LocalDate date;
@@ -27,7 +28,6 @@ public class Shift {
         return this.uid;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getDate(){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("d MMM");
         return date.format(format);
@@ -43,5 +43,19 @@ public class Shift {
 
     public String getWorkType(){
         return this.workType;
+    }
+
+    public String getShift(){
+        if (stopTime.isBefore(LocalTime.of(16, 0))) {
+            return "Lunchpass";
+        }
+        return "Kvällspass";
+    }
+
+    public boolean hasPassed(){
+        if(date.isBefore(LocalDate.now())){
+            return true;
+        }
+        return false;
     }
 }

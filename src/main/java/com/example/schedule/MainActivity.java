@@ -1,14 +1,17 @@
 package com.example.schedule;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainActivity extends AppCompatActivity {
     EditText editUserName;
     EditText editPassword;
@@ -21,18 +24,18 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view){
             //Hämta användare från databasen
             //Kolla om användare finns
-           // if(editUserName.getText().toString().contains("") && editPassword.getText().toString().contains("")){
+            if(editUserName.getText().toString().contains("a") && editPassword.getText().toString().contains("")){
                 txtErrorLogIn.setVisibility(View.INVISIBLE);
                 editUserName.setBackgroundResource(R.drawable.ednormal);
                 editPassword.setBackgroundResource(R.drawable.ednormal);
                 Intent homeAct = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(homeAct);
                 finish();
-            //}else{
-            //    txtErrorLogIn.setVisibility(View.VISIBLE);
-            //    editUserName.setBackgroundResource(R.drawable.edterr);
-            //    editPassword.setBackgroundResource(R.drawable.edterr);
-            //}
+            }else{
+                txtErrorLogIn.setVisibility(View.VISIBLE);
+                editUserName.setBackgroundResource(R.drawable.edterr);
+                editPassword.setBackgroundResource(R.drawable.edterr);
+            }
         }
     }
 

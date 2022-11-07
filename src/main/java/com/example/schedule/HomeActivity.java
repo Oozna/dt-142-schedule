@@ -22,12 +22,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
     Fragment homeFragment;
     Fragment scheduleFragment;
     public String amountOfShifts;
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    private ArrayList<Shift> comingShifts = new ArrayList<Shift>();
+    private ArrayList<Shift> allShifts = new ArrayList<Shift>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         replaceFragment(homeFragment);
 
         //Funktion hämta data
-        Shift s = new Shift(0, LocalDate.of(2022,11,4), LocalTime.of(11,0), LocalTime.of(14,0), "Servitör");
+        Shift s3 = new Shift(0, LocalDate.of(2022, 11, 10), LocalTime.of(16,00), LocalTime.of(23,00), "Servitör");
+        addComingShifts(s3);
+        addComingShifts(s3);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
@@ -55,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
     }
+
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -62,9 +68,13 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private ArrayList<Shift> getShifts(){
-        ArrayList<Shift> shifts = new ArrayList<Shift>();
-        //shifts.add(new Shift(0, new Date(), new DateTime(), "Servitör"));
-        return shifts;
+    public ArrayList<Shift> getComingShifts(){
+        return comingShifts;
+    }
+
+    private void addComingShifts(Shift s){
+        if(!s.hasPassed()){
+            comingShifts.add(s);
+        }
     }
 }

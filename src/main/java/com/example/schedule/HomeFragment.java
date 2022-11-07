@@ -1,7 +1,9 @@
 package com.example.schedule;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -16,6 +18,8 @@ import android.widget.TextView;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -73,21 +77,38 @@ public class HomeFragment extends Fragment {
 
         //LÄS PASS FRÅN DATABAS OCH SÄTT VÄRDEN FÖR 'KOMMANDE PASS'
         TextView shiftLabel = view.findViewById(R.id.txtComingShift);
-        String shiftAmount = home.amountOfShifts;
+        int shiftAmount = home.getComingShifts().size();
         shiftLabel.setText(shiftLabel.getText() + " (" + shiftAmount + ")");
+
         //Har användaren bara ett skift:
-        //secondShift.setVisibility(View.INVISIBLE);
-        TextView date = view.findViewById(R.id.txtFirstShiftDate);
-        date.setText("4 nov");
-        TextView time = view.findViewById(R.id.txtFirstShiftHours);
-        time.setText("11:00\n14:00");
+        if(shiftAmount > 0) {
+            firstShift.setVisibility(View.VISIBLE);
+            Shift first = home.getComingShifts().get(0);
+            TextView date = view.findViewById(R.id.txtFirstShiftDate);
+            date.setText(first.getDate());
+            TextView time = view.findViewById(R.id.txtFirstShiftHours);
+            time.setText(first.getStartTime() + "\n" + first.getStopTime());
 
-        //if-sats beroende på 'time' hämtat från databasen
-        TextView shift = view.findViewById(R.id.txtFirstShift);
-        shift.setText("Lunchpass");
-        TextView info = view.findViewById(R.id.txtFirstShiftInfo);
-        info.setText("Servitör");
+            //if-sats beroende på 'time' hämtat från databasen
+            TextView shift = view.findViewById(R.id.txtFirstShift);
+            shift.setText(first.getShift());
+            TextView info = view.findViewById(R.id.txtFirstShiftInfo);
+            info.setText(first.getWorkType());
+            if(shiftAmount > 1){
+                secondShift.setVisibility(View.VISIBLE);
+                Shift second = home.getComingShifts().get(1);
+                date = view.findViewById(R.id.txtSecondShiftDate);
+                date.setText(second.getDate());
+                time = view.findViewById(R.id.txtSecondShiftHours);
+                time.setText(second.getStartTime() + "\n" + second.getStopTime());
 
+                //if-sats beroende på 'time' hämtat från databasen
+                shift = view.findViewById(R.id.txtSecondShift);
+                shift.setText(second.getShift());
+                info = view.findViewById(R.id.txtSecondShiftInfo);
+                info.setText(second.getWorkType());
+            }
+        }
 
         //LÄS ANTAL LEDIGA PASS FRÅN DATABASEN
         TextView freeShift = view.findViewById(R.id.txtTotalFreeShift);
